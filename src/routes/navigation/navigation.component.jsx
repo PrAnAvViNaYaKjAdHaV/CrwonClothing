@@ -13,7 +13,7 @@ const Nevigation = () => {
           <Link className="nav-link" to="/shop">
             SHOP
           </Link>
-          <Link className="nav-link" to="/sing-in">
+          <Link className="nav-link" to="/auth">
             Sing in
           </Link>
         </div>
