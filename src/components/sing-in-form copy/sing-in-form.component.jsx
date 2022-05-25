@@ -7,34 +7,39 @@ import {
   singInAuthUserWithEmailAndPassword,
   creatUserDocumentFromAuth,
 } from "../../util/firebase/firebase.util";
+
+
 const defaultFormatField = {
   email: "",
   password: "",
 };
+
 const SingInForm = () => {
   const [formField, setFormFilds] = useState(defaultFormatField);
   const { email, password } = formField;
-  console.log(formField);
+  
   const resetFormfields = () => {
     setFormFilds(defaultFormatField);
   };
+
   const signInWithGoogle = async () => {
     const { user } = await signInWithGooglePopup();
     await creatUserDocumentFromAuth(user);
   };
+
   const hadleChange = (event) => {
     const { name, value } = event.target;
     setFormFilds({ ...formField, [name]: value });
   };
+
   const EmailUser = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await singInAuthUserWithEmailAndPassword(
+      const {user} = await singInAuthUserWithEmailAndPassword(
         email,
         password
       );
-      console.log(response);
       resetFormfields();
     } catch (error) {
       console.log(error);
@@ -43,6 +48,7 @@ const SingInForm = () => {
       }
     }
   };
+
   return (
     <div className="sign-up-container">
       <h2>Already have an account</h2>

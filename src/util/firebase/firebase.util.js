@@ -1,6 +1,3 @@
-
-
-import { async } from "@firebase/util";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -8,7 +5,9 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
@@ -37,10 +36,13 @@ export const signInWithGooglePopup = () =>
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider);
 
+
+
+
 const db = getFirestore();
 
-export const creatUserDocumentFromAuth = async (userAuth,additionl) => {
-  if(!userAuth) return;
+export const creatUserDocumentFromAuth = async (userAuth, additionl) => {
+  if (!userAuth) return;
   const userDocRef = doc(db, "users", userAuth.uid);
   console.log(userDocRef);
 
@@ -59,9 +61,8 @@ export const creatUserDocumentFromAuth = async (userAuth,additionl) => {
         displayName,
         email,
         createdAt,
-        ...additionl
+        ...additionl,
       });
-
     } catch (error) {
       console.log("errorrr creating the user", error.message);
     }
@@ -71,13 +72,18 @@ export const creatUserDocumentFromAuth = async (userAuth,additionl) => {
   // if user data does not exists
 };
 
-export const creactAuthUserWithEmailAndPassword = async (email,password)=>{
-  if(!email || !password) return;
-return await  createUserWithEmailAndPassword(auth,email,password);
-}
+export const creactAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
 
-export const singInAuthUserWithEmailAndPassword = async (email,password)=>{
-  if(!email || !password) return;
+export const singInAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
 
-  return await signInWithEmailAndPassword(auth,email,password);
-}
+  return await signInWithEmailAndPassword(auth, email, password);
+};
+
+export const singOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (callbak) =>
+  onAuthStateChanged(auth, callbak);
