@@ -1,7 +1,7 @@
 
 import { useState} from "react";
 import FormInput from "../form-input/form-input.component";
-import './sing-up-form.style.scss';
+import './sing-up-form.style.jsx';
 import Button from "../button/button.component";
 import {
   creactAuthUserWithEmailAndPassword,
